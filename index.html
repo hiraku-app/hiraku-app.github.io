@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ひらく — HTMLの本棚</title>
+<meta name="description" content="スマホでHTMLファイルをひらく本棚アプリ。入れたファイルはスマホの中だけに保存します。">
+<meta name="theme-color" content="#faf7f0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ひらく">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="app.css">
+<script>
+/* LINE の中で開かれたら、ふだんのブラウザ（Safari / Chrome）で開き直す（LINE 公式の openExternalBrowser=1） */
+(function () {
+  try {
+    if (/\bLine\//i.test(navigator.userAgent) && !/[?&]openExternalBrowser=1/.test(location.search)) {
+      location.replace(location.pathname + (location.search ? location.search + '&' : '?') + 'openExternalBrowser=1' + location.hash);
+    }
+  } catch (e) { /* そのまま */ }
+})();
+</script>
+<script src="db.js"></script>
+<script src="qr.js" defer></script>
+<script type="module" src="app.js"></script>
+</head>
+<body>
+<!-- SIGNATURE: 本棚の各行の左にある「背表紙」＝種類ごとの色帯＋縦書きの種類名（資料／アプリ／写真）。太さはファイルの大きさ -->
+<!-- 例外: 手順の図（.fig）は空状態の飾り絵ではなく、押す所を示す説明図（スマホが苦手な人向けの勝利条件） -->
+
+<main id="shelf" class="screen">
+  <header class="top">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div>
+        <h1>ひらく</h1>
+        <p>HTMLの本棚</p>
+      </div>
+    </div>
+    <button class="btn-icon-text" id="toSettings" type="button">せってい</button>
+  </header>
+
+  <div class="strip" id="strip" hidden>
+    <p>まだホーム画面に追加していません。<b>先に追加</b>してから、ファイルを入れてください。</p>
+    <button type="button" id="stripBtn">追加のしかたを見る</button>
+  </div>
+
+  <div class="primary-wrap">
+    <button id="pick" class="btn-primary" type="button" data-icon="plus">ファイルを入れる</button>
+    <p class="hint">LINEなどで届いた資料やアプリのファイルを入れます。入れたファイルは、このスマホの中だけに保存されます。</p>
+  </div>
+
+  <div id="notice" aria-live="polite"></div>
+
+  <div class="shelf-head"><h2>本棚</h2><span id="count"></span></div>
+  <input id="filter" class="shelf-filter" type="search" placeholder="本棚の中を さがす" enterkeyhint="search" hidden>
+  <ul id="list" class="shelf-list"></ul>
+
+  <details class="howto" id="howto">
+    <summary>LINEで届いたファイルの入れ方</summary>
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" data-os="ios">iPhone</button>
+      <button type="button" role="tab" data-os="android">Android</button>
+    </div>
+    <ol class="steps" data-for="ios">
+      <li><p>LINEのトークで、届いたファイルを押して開きます。</p></li>
+      <li><p>共有ボタン<span class="ico-inline" data-icon="share"></span>を押し、<b>「“ファイル”に保存」</b>を選んで保存します。<span class="sub">保存する場所は「このiPhone内」がおすすめです。</span></p></li>
+      <li><p>ひらくに戻って<b>「ファイルを入れる」</b>を押し、いま保存したファイルを選びます。<span class="sub">見つからないときは、下の「最近使った項目」を押してください。</span></p></li>
+    </ol>
+    <ol class="steps" data-for="android" hidden>
+      <li><p>LINEのトークで、届いたファイルを押して保存します。</p></li>
+      <li><p>ひらくに戻って<b>「ファイルを入れる」</b>を押し、<b>「ダウンロード」</b>の中から選びます。</p></li>
+      <li><p>ファイルの<b>「共有」</b>に「ひらく」が出る機種では、そこから直接入れることもできます。</p></li>
+    </ol>
+  </details>
+
+  <p class="foot">入れたファイルは、このスマホの外へは送られません。アプリを消すと本棚も消えるので、元のファイルは取っておいてください。</p>
+</main>
+
+<section id="viewer" hidden aria-label="表示">
+  <header class="vbar">
+    <button class="vback" id="vBack" type="button" data-icon="back">本棚</button>
+    <div class="vtitle" id="vTitle"></div>
+  </header>
+  <div class="vsearch" id="vSearch" hidden>
+    <span class="qwrap"><input id="q" type="search" placeholder="さがす言葉" enterkeyhint="search" autocomplete="off" aria-label="さがす言葉"><span class="count" id="qCount" aria-live="polite"></span></span>
+    <button class="sq" id="qPrev" type="button">前へ</button>
+    <button class="sq" id="qNext" type="button">次へ</button>
+    <button class="sq" id="qClose" type="button" aria-label="さがすのをやめる">とじる</button>
+  </div>
+  <div class="vbanner" id="vBanner" aria-live="polite"></div>
+  <div class="vbox" id="vBox"></div>
+  <nav class="vtools" aria-label="表示の道具">
+    <button type="button" id="tToc" data-icon="toc">目次</button>
+    <button type="button" id="tFind" data-icon="search">さがす</button>
+    <button type="button" id="tSize" data-icon="text">文字</button>
+    <button type="button" id="tShare" data-icon="share">送る</button>
+    <button type="button" id="tMore" data-icon="more">その他</button>
+  </nav>
+</section>
+
+<section id="settings" class="screen" hidden>
+  <div class="sbar">
+    <button class="vback" id="sBack" type="button" data-icon="back">本棚</button>
+    <h2>せってい</h2>
+  </div>
+  <div id="sBody"></div>
+</section>
+
+<input type="file" id="file" multiple hidden>
+</body>
+</html>
+<!-- Created by : Yoshihito Shirasu -->

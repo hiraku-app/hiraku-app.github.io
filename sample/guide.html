@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ひらくの使い方（さわって確かめる見本）</title>
+<style>
+  :root { --paper: #faf7f0; --paper2: #f1ebdd; --ink: #191714; --muted: #6f6858; --line: #d8cfba; --accent: #C8102E; --accent2: #1B4965; --ok: #2A6F4E; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 18px/1.8 "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 24px 20px 64px; }
+  h1 { font: 700 28px/1.4 "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif; margin: 0 0 8px; padding-bottom: 12px; border-bottom: 3px solid var(--ink); }
+  h2 { display: flex; gap: 12px; align-items: baseline; font: 700 22px/1.4 "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif; margin: 40px 0 8px; }
+  h2 span { color: var(--accent); font-size: 32px; }
+  p { margin: 0 0 12px; }
+  .lead { color: var(--muted); }
+  .point { margin: 16px 0; padding: 12px 16px; border-left: 6px solid var(--accent2); background: var(--paper2); }
+  .check { list-style: none; padding: 0; margin: 12px 0; border-top: 1px solid var(--line); }
+  .check label { display: flex; gap: 14px; align-items: center; min-height: 60px; border-bottom: 1px solid var(--line); }
+  .check input { width: 28px; height: 28px; accent-color: var(--ok); flex: none; }
+  .done { color: var(--ok); font-weight: 700; }
+  a { color: var(--accent2); }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 16px; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 8px; border-bottom: 1px solid var(--line); }
+  th { width: 34%; font-weight: 700; }
+</style>
+</head>
+<body>
+<main>
+  <h1>ひらくの使い方</h1>
+  <p class="lead">この本は見本です。ひらくの使い方を、実際にさわりながら確かめられます。いらなくなったら本棚から消してかまいません。</p>
+  <p><a href="#trouble">困ったときは、いちばん下へ</a></p>
+
+  <h2><span>1</span>ファイルを入れる</h2>
+  <p>本棚の「HTMLファイルをえらぶ」を押して、スマホの中のファイルを選びます。名前の最後が <b>.html</b> のファイルと、画像のフォルダごとまとめた <b>.zip</b> が入れられます。</p>
+  <p>入れたファイルは、このスマホの中だけに保存されます。外へは送られません。</p>
+
+  <h2><span>2</span>文字を大きくする</h2>
+  <p>下の「文字」を押すと、文字の大きさを4つから選べます。ファイルごとに覚えておきます。</p>
+  <p>パソコン向けに作られたページは、自動で画面の幅に合わせて縮めます。縮めたくないときは「画面の幅に合わせる」をオフにしてください。</p>
+
+  <h2><span>3</span>目次とさがす</h2>
+  <p>下の「目次」を押すと、このページの見出しが並びます。押すとその場所へ飛びます。</p>
+  <div class="point">ためしてみましょう：下の「さがす」を押して「本棚」と入れてください。見つかった所に色がつきます。</div>
+
+  <h2><span>4</span>続きから読む</h2>
+  <p>途中で本棚に戻っても、次にひらくと、前に読んでいた所から表示します。最初から読みたいときは、上に出る「最初から」を押します。</p>
+
+  <h2><span>5</span>中で保存するアプリも使える</h2>
+  <p>チェックリストや計算ツールなど、中で保存するHTMLも使えます。保存した中身は、閉じても残ります。</p>
+  <div class="point">ためしてみましょう：下の3つにチェックを入れてから本棚に戻り、もう一度この本をひらいてください。チェックが残っています。</div>
+  <ul class="check" id="check">
+    <li><label><input type="checkbox" data-k="a">文字を「大きめ」にしてみた</label></li>
+    <li><label><input type="checkbox" data-k="b">「目次」から見出しに飛んでみた</label></li>
+    <li><label><input type="checkbox" data-k="c">「さがす」で言葉を探してみた</label></li>
+  </ul>
+  <p id="checkMsg"></p>
+
+  <h2><span>6</span>人に送る</h2>
+  <p>下の「送る」を押すと、このファイルを LINE や AirDrop などで送れます。受け取った人も、ひらくを入れておけば同じように読めます。</p>
+
+  <h2><span>7</span>暗証番号をつける</h2>
+  <p>本棚の右上の「せってい」から、4けたの暗証番号をつけられます。人に見られたくない資料があるときに使ってください。</p>
+
+  <h2 id="trouble"><span>8</span>困ったとき</h2>
+  <table>
+    <tr><th>画像が出ない</th><td>画像が別のファイルになっています。HTMLと画像のフォルダをまとめてZIPにして入れてください。</td></tr>
+    <tr><th>ファイルが選べない</th><td>LINEで届いたファイルは、先に「“ファイル”に保存」してから選びます。本棚の下の「LINEで届いたHTMLの入れ方」を見てください。</td></tr>
+    <tr><th>本棚が空になった</th><td>ひらくを消したり、スマホの空きが足りなくなったりすると消えることがあります。元のファイルは取っておいてください。</td></tr>
+  </table>
+  <p><a href="#">いちばん上へもどる</a></p>
+</main>
+<script>
+  (function () {
+    var KEY = 'hiraku-guide-check';
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { saved = {}; }
+    var boxes = document.querySelectorAll('#check input');
+    function paint() {
+      var n = 0;
+      boxes.forEach(function (b) { if (b.checked) n++; });
+      var msg = document.getElementById('checkMsg');
+      msg.textContent = n === 3 ? 'ぜんぶできました。これで使い方はばっちりです。' : (n ? n + ' / 3 できました。' : '');
+      msg.className = n === 3 ? 'done' : '';
+    }
+    boxes.forEach(function (b) {
+      b.checked = !!saved[b.dataset.k];
+      b.addEventListener('change', function () {
+        saved[b.dataset.k] = b.checked;
+        try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) { /* 保存できない */ }
+        paint();
+      });
+    });
+    paint();
+  })();
+</script>
+</body>
+</html>
+<!-- Created by : Yoshihito Shirasu -->
